@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    image: vhmds/posts
+    ports:
+      - 8000:8000
+    environment:
+      - DB_HOST=postgres
+    networks:
+      - my-app
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    networks:
+      - my-app
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password 
+      - POSTGRES_USER=postgres 
+    ports:
+      - 5432:5432
+networks:
+  my-app:
+volumes:
+  database:
