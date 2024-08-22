@@ -5,7 +5,7 @@ metadata:
   labels:
     app: db
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: db
@@ -14,12 +14,12 @@ spec:
       labels:
         app: db
     spec:
-     containers:
-      - name: database
-        image: postgres
-        ports:
-        - containerPort: 5432
-        env:
+      containers:
+        - name: database
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
             - name: POSTGRES_USER
               value: "postgres"
             - name: POSTGRES_PASSWORD
@@ -27,3 +27,7 @@ spec:
                 secretKeyRef:
                   name: db-password-secret
                   key: DB_PASSWORD
+      volumes:
+        - name: db-pvc
+          persistentVolumeClaim:
+            claimName: myclaim
